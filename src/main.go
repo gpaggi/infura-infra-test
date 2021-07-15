@@ -28,7 +28,7 @@ func main() {
 	}
 
 	// Get the bind address for the webserver from the environment
-	la, ok := os.LookupEnv("LISTENADDR")
+	la, ok := os.LookupEnv("LISTEN_ADDR")
 	if !ok {
 		listen = ":9090"
 	} else {
@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// Get the log level from the environment and configure the logger accordingly
-	lvl := os.Getenv("LOGLEVEL")
+	lvl := os.Getenv("LOG_LEVEL")
 	if lvl != "" {
 		lvl, err := log.ParseLevel(lvl)
 		if err != nil {
