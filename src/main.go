@@ -53,16 +53,15 @@ func main() {
 
 	// Configure the webserver
 	r := mux.NewRouter()
-	r.Methods("GET")
 	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
 
 	// Simple two routes setup
 	r.Handle("/api/v1/get-block", &H.BlockHandler{
 		Client: client,
-	})
+	}).Methods("GET")
 	r.Handle("/api/v1/get-tx", &H.TxHandler{
 		Client: client,
-	})
+	}).Methods("GET")
 
 	// Start the webserver or fail hard
 	log.Infof("Starting up and binding to %s", listen)
