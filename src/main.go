@@ -53,6 +53,7 @@ func main() {
 
 	// Configure the webserver
 	r := mux.NewRouter()
+	r.Methods("GET")
 	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
 
 	// Simple two routes setup
