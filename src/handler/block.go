@@ -37,6 +37,7 @@ func (c *BlockHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// Check query parameters
 	if hash == "" && num == "" && lt == "" {
+		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(&models.Error{
 			Code: 400,
 			Msg:  "Malformed request, must specify only one of latest, hash or number",
@@ -47,6 +48,7 @@ func (c *BlockHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		n = new(big.Int)
 		n, ok = n.SetString(num, 10)
 		if !ok {
+			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(&models.Error{
 				Code: 400,
 				Msg:  "Malformed request, number must be a valid base 10 number",
@@ -74,6 +76,7 @@ func (c *BlockHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		switch err.Code {
 		// we rewrite Msg to avoid possible leaks of sensitive information in the response
 		case 500:
+			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(&models.Error{
 				Code: 500,
 				Msg:  "Internal server error",
